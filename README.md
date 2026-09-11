@@ -1,3 +1,9 @@
+<!-- app-release:start -->
+[**Descargar APK v1**](https://github.com/ricardoyf/ReproLLC/releases/download/v1/reproLLC-v1.apk) · [SHA-256](https://github.com/ricardoyf/ReproLLC/releases/download/v1/reproLLC-v1.apk.sha256)
+
+`292a6dd38a868a12f59fa577699fc1abbd12963880e3f6bd0f49551f3d7e3d04`
+<!-- app-release:end -->
+
 # reproLLC v1
 
 App Android independiente para reproducir fragmentos de video editados con VideoCortes o LosslessCut PC.
