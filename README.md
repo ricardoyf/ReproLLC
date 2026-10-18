@@ -35,7 +35,65 @@ Esto cubre los fragmentos creados por VideoCortes y los exportados desde Lossles
 - Android minimo: API 26
 - Target: API 34
 
-## PC con mpv/mpv.net
+## Ubuntu: interfaz por años y meses
+
+La interfaz **`accesidorectoporaños`** permite elegir un año y uno o varios meses,
+reproducir en orden aleatorio o por nombre, y abrir carpetas locales o de un NAS SMB.
+Usa las funciones de playlist y controles del reproductor PC existente. No cambia
+el funcionamiento de Android ni del script PC original.
+
+### Instalar en otro PC Ubuntu
+
+En una terminal, clona el repositorio y ejecuta el instalador **sin sudo**:
+
+```bash
+git clone https://github.com/ricardoyf/ReproLLC.git
+cd ReproLLC
+./instalar-ubuntu.sh
+```
+
+El instalador pide tu contraseña si faltan paquetes (`mpv`, GTK/Python o soporte
+SMB). Crea **ReproLLC · Vídeos del NAS** en el escritorio y en el menú de
+aplicaciones. No requiere pip ni rutas de un usuario concreto. Conserva la carpeta
+del repositorio: el acceso apunta a ese clon. Si lo mueves, ejecuta de nuevo el
+instalador desde su nueva ubicación.
+
+Con las dependencias instaladas, también se puede abrir directamente:
+
+```bash
+./accesidorectoporaños
+```
+
+### Elegir los vídeos
+
+1. La carpeta inicial es `smb://dsplay214.local/video/home%20video`.
+   Puedes cambiarla escribiendo otra ruta o pulsando **Elegir carpeta…**.
+   Debe contener carpetas por año (`2026`, `2025`, etc.).
+2. Elige año, marca uno o varios meses y pulsa **Reproducir en mpv**.
+3. **Orden aleatorio** está activado de inicio; puedes desmarcarlo.
+
+El NAS debe ser accesible desde ese PC. Al conectarse, Ubuntu puede pedir sus
+credenciales; las gestiona Ubuntu, no el repositorio. No se incluyen contraseñas.
+Se reproduce directamente desde la carpeta, sin copiar ni modificar los vídeos.
+
+La interfaz incluye archivos de vídeo con **LLC** en el nombre (sin distinguir
+mayúsculas) y fecha inicial `AAAAMMDD` o `AAAA-MM-DD` (también admite separadores
+`.` y `_`). Usa esa fecha, no la fecha de modificación. Por ejemplo:
+
+```text
+2026/09 septiembre/20260903_180817-LLC-00.00.00.000-00.00.08.672.mp4
+```
+
+Recuerda la carpeta, el año, los meses y el orden de la última reproducción en
+`~/.config/reprollc/interfaz.json`. En una instalación nueva selecciona el mes y
+año actuales. El filtro LLC de esta interfaz es independiente del detector de dos
+marcas de tiempo del script PC original.
+
+**Controles de mpv:** clic izquierdo = siguiente clip; Espacio = pausa; Q = salir.
+La lista se repite automáticamente. Los errores de reproducción quedan en
+`~/.local/state/reprollc/mpv.log`.
+
+## PC con mpv/mpv.net (script original sin interfaz)
 
 Archivos:
 
