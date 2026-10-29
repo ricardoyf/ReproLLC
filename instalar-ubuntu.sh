@@ -10,6 +10,9 @@ REPROLLC_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 packages=(python3-gi gir1.2-gtk-3.0 gvfs-backends gvfs-fuse mpv xdg-user-dirs)
 missing=()
 for package in "${packages[@]}"; do
+    if [[ "$package" == mpv ]] && command -v mpv >/dev/null 2>&1; then
+        continue
+    fi
     if [[ "$(dpkg-query -W -f='${Status}' "$package" 2>/dev/null || true)" != 'install ok installed' ]]; then
         missing+=("$package")
     fi
@@ -44,7 +47,7 @@ def desktop_quote(value):
 entry = '\n'.join([
     '[Desktop Entry]', 'Version=1.0', 'Type=Application',
     'Name=ReproLLC · Vídeos del NAS',
-    'Comment=accesidorectoporaños: elige año y meses para reproducir tus clips LLC',
+    'Comment=Índice persistente: intervalo de años y reproducción rápida de clips LLC',
     'Exec=/usr/bin/python3 ' + desktop_quote(root / 'accesidorectoporaños.py'),
     'Icon=video-x-generic', 'Terminal=false', 'Categories=AudioVideo;Player;',
     'StartupNotify=true', '',

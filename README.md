@@ -4,7 +4,7 @@
 `292a6dd38a868a12f59fa577699fc1abbd12963880e3f6bd0f49551f3d7e3d04`
 <!-- app-release:end -->
 
-# reproLLC v1
+# reproLLC · Ubuntu v1.3 / Android v1
 
 App Android independiente para reproducir fragmentos de video editados con VideoCortes o LosslessCut PC.
 
@@ -36,6 +36,11 @@ Esto cubre los fragmentos creados por VideoCortes y los exportados desde Lossles
 - Target: API 34
 
 ## Ubuntu: interfaz por años y meses
+
+La versión Ubuntu v1.3 guarda un índice local persistente de los clips LLC. Permite elegir
+un intervalo inclusivo de año inicial y final y empezar a reproducir en pocos segundos sin
+volver a recorrer el NAS. El botón **Crear nuevo índice** fuerza un escaneo completo cuando
+se añaden o eliminan vídeos; los archivos del NAS nunca se modifican.
 
 La interfaz **`accesidorectoporaños`** permite elegir un año y uno o varios meses,
 reproducir en orden aleatorio o por nombre, y abrir carpetas locales o de un NAS SMB.
