@@ -45,6 +45,14 @@ class MonthSelection(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'carpeta 2026'):
             ui.selected_videos(self.root, 2026, [9])
 
+    def test_index_supports_year_range(self):
+        first = self.video('2024/01 enero/20240103_120000-LLC.mp4')
+        second = self.video('2025/12 diciembre/20251231_120000-LLC.mp4')
+        self.video('2025/12 diciembre/original.mp4')
+        rows = ui.create_index(self.root)
+        self.assertEqual({Path(row['path']) for row in rows}, {first, second})
+        self.assertEqual({row['date'][:4] for row in rows}, {'2024', '2025'})
+
 
 if __name__ == '__main__':
     unittest.main()
