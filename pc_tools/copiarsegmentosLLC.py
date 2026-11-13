@@ -39,6 +39,33 @@ def is_edited_segment(path: Path) -> bool:
     return path.suffix.lower() in VIDEO_EXTENSIONS and bool(EDITED_TIME_RANGE.match(path.name))
 
 
+def equivalent_targets(dest: Path, relative: Path) -> list[Path]:
+    """Posibles copias, originales o recomprimidas, del mismo segmento."""
+    exact = dest / relative
+    roots = [dest]
+    if dest.name.upper() == "VIDEOSLLC":
+        roots.append(dest.with_name("VIDEOSLLC_RECOMPRIMIDOS"))
+
+    candidates: list[Path] = []
+    for root in roots:
+        target = root / relative
+        candidates.extend(
+            (
+                target,
+                target.with_name(f"{target.name}.mp4"),  # formato histórico .mp4.mp4
+                target.with_name(f"{target.stem}__BEBOX.mp4"),
+                target.with_name(f"{target.stem}_RECOMPRIMIDO.mp4"),
+            )
+        )
+    # Compatibilidad con la versión antigua, que copiaba todo sin subcarpetas.
+    candidates.append(dest / relative.name)
+    return list(dict.fromkeys(candidates))
+
+
+def already_copied(dest: Path, relative: Path) -> bool:
+    return any(path.is_file() and path.stat().st_size > 0 for path in equivalent_targets(dest, relative))
+
+
 class SegmentCollector:
     def __init__(self, root: tk.Tk) -> None:
         self.root = root
@@ -144,14 +171,17 @@ class SegmentCollector:
         threading.Thread(target=self.copy_worker, args=(selected,), daemon=True).start()
 
     def copy_worker(self, selected: list[Path]) -> None:
+        source = Path(self.source_folder.get()).resolve()
         dest = Path(self.dest_folder.get())
         copied = skipped = errors = 0
         for idx, src in enumerate(selected, start=1):
             try:
-                target = dest / src.name
-                if target.exists():
+                relative = src.resolve().relative_to(source)
+                target = dest / relative
+                if already_copied(dest, relative):
                     skipped += 1
                 else:
+                    target.parent.mkdir(parents=True, exist_ok=True)
                     shutil.copy2(src, target)
                     copied += 1
             except Exception as exc:

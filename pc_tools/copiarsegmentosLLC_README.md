@@ -29,5 +29,14 @@ Esto cubre:
 - Escanea recursivamente la carpeta origen.
 - Ordena por nombre de archivo.
 - Permite seleccionar todos o solo algunos.
+- Replica en destino la misma estructura de subcarpetas del origen.
 - Copia con `shutil.copy2`, conservando fecha de modificación.
-- Si el archivo ya existe en destino, lo omite.
+- Nunca sobrescribe un archivo existente.
+- Considera que el segmento ya está copiado y lo omite si encuentra cualquiera
+  de estas variantes en la misma ruta relativa: original, `*.mp4.mp4`,
+  `*__BEBOX.mp4` o `*_RECOMPRIMIDO.mp4`.
+- Si el destino se llama `VIDEOSLLC`, también comprueba automáticamente la
+  carpeta hermana `VIDEOSLLC_RECOMPRIMIDOS`. Así una ejecución posterior no
+  vuelve a copiar el original de un vídeo que ya fue recomprimido.
+- Conserva compatibilidad con el comportamiento antiguo comprobando también
+  si existe el mismo nombre en la raíz del destino.
